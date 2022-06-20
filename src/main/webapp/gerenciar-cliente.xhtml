@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="template.xhtml"
+                xmlns:im="http://xmlns.jcp.org/jsf/composite/imbcomp">
+    <ui:param name="titulo" value="Gerenciar Cliente"></ui:param>
+    <h:form>
+        <im:toolbar crudBean="#{clienteBean}"/>
+        <p:panelGrid columns="2" rendered="#{clienteBean.estado.name() != 'BUSCAR'}">
+            <p:outputLabel for="txtNome" value="Nome"></p:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.nome}"
+                         id="txtNome"></p:inputText>
+            <p:outputLabel for="txtCPF" value="CPF"></p:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.cpf}"
+                         id="txtCPF"></p:inputText>
+            <p:outputLabel for="txtRG" value="RG"></p:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.rg}"
+                         id="txtRG"></p:inputText>
+            <p:outputLabel for="txtDataNascimento" value="Data Nascimento"></p:outputLabel>
+            <p:calendar id="txtDataNascimento" value="#{clienteBean.entidade.dataNascimento}"></p:calendar>
+            <p:outputLabel for="txtEmail" value="Email"></p:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.email}"
+                         id="txtEmail"></p:inputText>
+            <p:outputLabel for="txtEndereco" value="Endereco"></p:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.endereco}"
+                         id="txtEndereco"></p:inputText>
+
+        </p:panelGrid>
+
+        <p:dataTable value="#{clienteBean.entidades}"  rendered="#{clienteBean.estado.name() == 'BUSCAR'}" var="entidade">
+            <p:column>
+                <p:commandButton icon="fa fa-edit" update="@form"
+                                 action="#{clienteBean.editar(entidade)}"></p:commandButton>
+                <p:commandButton icon="fa fa-trash" update="@form"
+                                 action="#{clienteBean.remover(entidade)}"></p:commandButton>
+            </p:column>
+            <p:column headerText="ID">
+                <h:outputText value="#{entidade.id}"></h:outputText>
+            </p:column>
+            <p:column headerText="Nome" filterBy="#{entidade.nome}">
+                <h:outputText value="#{entidade.nome}"></h:outputText>
+            </p:column>
+            <p:column headerText="CPF">
+                <h:outputText value="#{entidade.cpf}"></h:outputText>
+            </p:column>
+            <p:column headerText="Email">
+                <h:outputText value="#{entidade.email}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>
+
